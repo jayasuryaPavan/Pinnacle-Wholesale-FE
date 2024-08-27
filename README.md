@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Getting code from the github
 
-Get the code from github by following the commands as per instructions in the website or refer chatGPT. After you pull the entire code, open the terminal in vscode and run "npm install". This will allow angular to install all the necessary libraries.
+Get the code from github by following the commands as per instructions in the website or refer chatGPT. After you pull the entire code, open the terminal in vscode and run `npm install`. This will allow angular to install all the necessary libraries.
 
 ## Development server
 
