@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="header">
+      <h2>New Stock</h2>
+      <button class="btn btn-primary">Click to generate table</button>
+    </div>
+  
+    <div class="upload-section">
+      <button class="btn btn-success">Upload PDF</button>
+      <span>Received_items.Pdf</span>
+    </div>
+  
+    <div class="filter-section">
+      <input type="text" placeholder="Search Item ID" class="form-control" />
+      <span>Received items: 29</span>
+    </div>
+  
+    <table class="table">
+      <thead>
+        <tr>
+          <!-- <th></th> -->
+          <th>Item ID</th>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Actual S.P.</th>
+          <th>Store S.P.</th>
+          <th>Label</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of items">
+          <!-- <td><input type="checkbox" /></td> -->
+          <td>{{ item.item_id }}</td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.quantity }}</td>
+          <td class="price">{{ item.ext_sell_price }}</td>
+          <td class="price store-price">{{ item.salvage_amount }}</td>
+          <td><button class="btn btn-success">Print Label</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
