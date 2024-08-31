@@ -3,6 +3,9 @@
       <h2>New Stock</h2>
       <button class="btn btn-primary">Click to generate table</button>
     </div>
+
+    <button mat-raised-button (click)="openDialog($event)">Open New Message Dialog</button>
+
   
     <div class="upload-section">
       <button class="btn btn-success">Upload PDF</button>
@@ -11,7 +14,7 @@
   
     <div class="filter-section">
       <input type="text" placeholder="Search Item ID" class="form-control" />
-      <span>Received items: 29</span>
+      <span>Received items: {{ totalCount }}</span>
     </div>
   
     <table class="table">
