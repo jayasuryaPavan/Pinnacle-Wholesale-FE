@@ -33,8 +33,8 @@ export class AddStockComponent {
     };
 
     const dialogRef = this.dialog.open(ItemNumberDialogComponent, {
-      width : '250px',  // Set width to avoid excessive stretching
-      height : 'auto',
+      width : '600px',  // Set width to avoid excessive stretching
+      height : '200px',
       data: { recipient: '', message: '' }
     });
 

@@ -1,9 +1,16 @@
 mat-form-field {
-    width: 100%;
-  }
-  
-  mat-dialog-actions {
-    display: flex;
-    justify-content: space-between;
-  }
-  
+  margin: 10px;
+}
+
+.mat-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mat-mdc-dialog-actions {
+  margin-top: 60px;
+}
+
+.mat-mdc-dialog-title {
+  padding: 0px 0px 10px 35px;
+}
