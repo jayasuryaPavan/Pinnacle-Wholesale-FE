@@ -2,6 +2,10 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.0.
 
+## Getting code from the github
+
+Get the code from github by following the commands as per instructions in the website or refer chatGPT. After you pull the entire code, open the terminal in vscode and run `npm install`. This will allow angular to install all the necessary libraries.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
