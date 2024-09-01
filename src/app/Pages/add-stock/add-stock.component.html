@@ -37,7 +37,7 @@
           <td>{{ item.quantity }}</td>
           <td class="price">{{ item.ext_sell_price }}</td>
           <td class="price store-price">{{ item.salvage_amount }}</td>
-          <td><button class="btn btn-success">Print Label</button></td>
+          <td><button class="btn btn-success" (click) = "onPrintLabel(item.item_id)">Print Label</button></td>
         </tr>
       </tbody>
     </table>

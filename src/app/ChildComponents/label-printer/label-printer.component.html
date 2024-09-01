@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Pinnacle-Wholesale</h2>
+<h2>Barcode</h2>
+<mat-dialog-content>
+    <svg id="barcode"></svg>
+</mat-dialog-content>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Confirm</button>
+</div>

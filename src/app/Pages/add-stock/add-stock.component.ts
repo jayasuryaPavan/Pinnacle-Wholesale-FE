@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { itemsData } from '../../Services/data';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ItemNumberDialogComponent } from '../../ChildComponents/item-number-dialog/item-number-dialog.component';
+import { LabelPrinterComponent } from '../../ChildComponents/label-printer/label-printer.component';
 
 @Component({
   selector: 'app-add-stock',
@@ -54,6 +55,18 @@ export class AddStockComponent {
 
   onPrintLabel(itemId: string) {
     // Logic to print the label for the item
+    const dialogConfig = new MatDialogConfig();
+
+    const dialogRef = this.dialog.open(LabelPrinterComponent, {
+      width : '600px',  // Set width to avoid excessive stretching
+      height : '200px',
+      data: { itrNum: itemId, barcode: 51656551622 }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result); // The result will have the recipient and message
+    });
   }
 
   onFilterSales() {
