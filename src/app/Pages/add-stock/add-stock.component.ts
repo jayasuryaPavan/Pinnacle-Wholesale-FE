@@ -35,7 +35,7 @@ export class AddStockComponent {
 
     const dialogRef = this.dialog.open(ItemNumberDialogComponent, {
       width : '600px',  // Set width to avoid excessive stretching
-      height : '200px',
+      height : 'auto',
       data: { recipient: '', message: '' }
     });
 
@@ -59,7 +59,7 @@ export class AddStockComponent {
 
     const dialogRef = this.dialog.open(LabelPrinterComponent, {
       width : '600px',  // Set width to avoid excessive stretching
-      height : '200px',
+      height : '400px',
       data: { itrNum: itemId, barcode: 51656551622 }
     });
 

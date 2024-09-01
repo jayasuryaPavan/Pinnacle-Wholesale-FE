@@ -1,18 +1,30 @@
 mat-form-field {
-    margin: 10px;
-  }
-  
-  .mat-dialog-actions {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .mat-mdc-dialog-actions {
-      margin-top: 76px;
-      margin-left: 408px;
-  }
-  
-  .mat-mdc-dialog-title {
-    padding: 0px 0px 10px 35px;
-  }
-  
+  margin: 10px;
+}
+
+.mat-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mat-mdc-dialog-actions {
+  margin-top: 76px;
+  margin-left: 408px;
+}
+
+.mat-mdc-dialog-title {
+  padding: 0px 0px 10px 35px;
+}
+
+h3 {
+  margin-left: 35px;
+}
+.label-printer-actions {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  box-sizing: border-box;
+}
+
+#barcode{
+  margin:25px;
+}

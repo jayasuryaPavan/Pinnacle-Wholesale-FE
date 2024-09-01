@@ -1,4 +1,4 @@
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
 
 /*
   1. Use a more-intuitive box-sizing model.
@@ -22,8 +22,8 @@
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  margin:20px;
-  padding:10px;
+  margin: 20px;
+  padding: 10px;
 }
 /*
   5. Improve media defaults
