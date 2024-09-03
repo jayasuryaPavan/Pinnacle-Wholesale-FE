@@ -30,9 +30,9 @@ export class LabelPrinterComponent implements OnInit {
   generateBarcode(data: string): void {
     JsBarcode('#barcode', data, {
       format: 'CODE128',
-      lineColor: '#0aa',
+      lineColor: 'black',
       width: 2,
-      height: 100,
+      height: 80,
       displayValue: true
     });
   }

@@ -1,11 +1,8 @@
 <div class="container">
     <div class="header">
       <h2>New Stock</h2>
-      <button class="btn btn-primary">Click to generate table</button>
+      <button class="btn btn-primary" (click)="openDialog($event)">Add Item to the Barcode</button>
     </div>
-
-    <button mat-raised-button (click)="openDialog($event)">Open New Message Dialog</button>
-
   
     <div class="upload-section">
       <button class="btn btn-success">Upload PDF</button>

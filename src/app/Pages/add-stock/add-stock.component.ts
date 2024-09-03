@@ -4,11 +4,12 @@ import { itemsData } from '../../Services/data';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ItemNumberDialogComponent } from '../../ChildComponents/item-number-dialog/item-number-dialog.component';
 import { LabelPrinterComponent } from '../../ChildComponents/label-printer/label-printer.component';
+import { OcrUploadComponent } from "../ocr-upload/ocr-upload.component";
 
 @Component({
   selector: 'app-add-stock',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, OcrUploadComponent],
   templateUrl: './add-stock.component.html',
   styleUrl: './add-stock.component.css'
 })
@@ -34,8 +35,8 @@ export class AddStockComponent {
     };
 
     const dialogRef = this.dialog.open(ItemNumberDialogComponent, {
-      width : '600px',  // Set width to avoid excessive stretching
-      height : 'auto',
+      // width : '600px',  // Set width to avoid excessive stretching
+      // height : 'auto',
       data: { recipient: '', message: '' }
     });
 
@@ -58,8 +59,8 @@ export class AddStockComponent {
     const dialogConfig = new MatDialogConfig();
 
     const dialogRef = this.dialog.open(LabelPrinterComponent, {
-      width : '600px',  // Set width to avoid excessive stretching
-      height : '400px',
+      // width : '600px',  // Set width to avoid excessive stretching
+      // height : '400px',
       data: { itrNum: itemId, barcode: 51656551622 }
     });
 

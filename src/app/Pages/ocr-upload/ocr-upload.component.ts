@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { OcrService } from '../../Services/ocr.service';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import * as pdfjsLib from 'pdfjs-dist';
 
 @Component({
   selector: 'app-ocr-upload',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule],
   templateUrl: './ocr-upload.component.html',
   styleUrl: './ocr-upload.component.css'
 })
@@ -15,38 +15,34 @@ export class OcrUploadComponent {
   isLoading: boolean = false;
   extractedText: any;
 
-  constructor(private ocrService: OcrService){ }
+  constructor(private ocrService: OcrService){
+  }
   
-  onFileSelected(event: any): void {
+  async onFileSelected(event: any): Promise<void> {
     const file: File = event.target.files[0];
-    if (file) {
+    if (file && file.type === 'application/pdf') {
       this.isLoading = true;
+      this.extractedText = null;
+      const fileReader = new FileReader();
+      fileReader.onload = async () => {
+        const typedArray = new Uint8Array(fileReader.result as ArrayBuffer);
+        const pdfDoc = await pdfjsLib.getDocument(typedArray).promise;
+        let text = '';
 
-      // const reader = new FileReader();
+        for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+          const page = await pdfDoc.getPage(pageNum);
+          const content = await page.getTextContent();
+          const pageText = content.items.map(item => (item as any).str).join(' ');
+          text += `${pageText}\n\n`;
+        }
 
-      // reader.onload = () => {
-      //   const base64Image = (reader.result as string).split(',')[1];
-      //   this.ocrService.recognizeText(base64Image).subscribe(
-      //     response => {
-      //       this.extractedText = response.responses[0].fullTextAnnotation.text;
-      //       console.log('Extracted Text:', this.extractedText);
-      //     },
-      //     error => {
-      //       console.error('Error:', error);
-      //     }
-      //   );
-      // };
-      
-      // reader.readAsDataURL(file);
-
-
-      this.ocrService.recognizeText(file).then(text => {
         this.extractedText = text;
         this.isLoading = false;
-      }).catch(error => {
-        console.error(error);
-        this.isLoading = false;
-      });
+      };
+
+      fileReader.readAsArrayBuffer(file);
+    } else {
+      alert('Please upload a valid PDF file.');
     }
   }
 }
