@@ -8,8 +8,10 @@ mat-form-field {
 }
 
 .mat-mdc-dialog-actions {
+
   display: flex;
   justify-content: flex-end;
+
 }
 
 .mat-mdc-dialog-title {
