@@ -8,8 +8,8 @@ mat-form-field {
 }
 
 .mat-mdc-dialog-actions {
-    /* margin-left: 408px; */
-    float: right;
+    margin-left: 408px;
+    margin-top: 76px;
 }
 
 .mat-mdc-dialog-title {

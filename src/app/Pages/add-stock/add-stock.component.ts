@@ -32,8 +32,8 @@ export class AddStockComponent {
     const dialogConfig = new MatDialogConfig();
 
     const dialogRef = this.dialog.open(ItemNumberDialogComponent, {
-      // width : '600px',  // Set width to avoid excessive stretching
-      // height : 'auto',
+      width : 'auto',  // Set width to avoid excessive stretching
+      height : 'auto',
       data: { recipient: '', message: '' }
     });
 
