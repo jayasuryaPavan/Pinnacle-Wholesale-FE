@@ -8,8 +8,14 @@ mat-form-field {
 }
 
 .mat-mdc-dialog-actions {
-  margin-top: 76px;
-  margin-left: 408px;
+  /* margin-top: 76px;
+  margin-left: 408px; */
+  float: right;
+}
+
+.mat-mdc-dialog-content{
+    padding: 0px 20px 0px 20px;
+    color: black;
 }
 
 .mat-mdc-dialog-title {
@@ -26,5 +32,11 @@ h3 {
 }
 
 #barcode{
-  margin:25px;
+  margin-left: 22%;
 }
+
+@media print {
+    .label-printer-actions {
+      display: none;
+    }
+  }

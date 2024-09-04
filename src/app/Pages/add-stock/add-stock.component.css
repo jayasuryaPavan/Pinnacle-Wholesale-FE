@@ -16,13 +16,17 @@
   margin-bottom: 20px;
 }
 
+.search-btn{
+  margin-left: 10px;
+  width: 100px;
+}
+
 .upload-section .btn {
   margin-right: 10px;
 }
 
 .filter-section {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
 }
@@ -74,6 +78,13 @@
 }
 
 .form-control {
+  padding: 5px;
+  width: 400px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.form-control-2 {
   padding: 5px;
   width: 200px;
   border: 1px solid #ddd;

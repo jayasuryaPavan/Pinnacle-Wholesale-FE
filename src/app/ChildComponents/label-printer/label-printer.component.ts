@@ -27,6 +27,18 @@ export class LabelPrinterComponent implements OnInit {
     this.generateBarcode(this.data.barcode);
   }
 
+  printDialog() {
+    const printContents = document.getElementsByClassName('mat-dialog-content')[0].innerHTML;
+    const originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
+    window.location.reload(); // To ensure the original content is restored correctly
+  }
+
   generateBarcode(data: string): void {
     JsBarcode('#barcode', data, {
       format: 'CODE128',

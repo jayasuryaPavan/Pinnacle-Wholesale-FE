@@ -1,13 +1,19 @@
 <!DOCTYPE html>
-<mat-dialog-content>
-  <h2 mat-dialog-title>Pinnacle-Wholesale</h2>
-  <!-- <h3>Barcode</h3> -->
-  <div style="padding-left: 140px;"><svg id="barcode"></svg></div>
-
-  <mat-dialog-actions>
-    <div class="label-printer-actions">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Confirm</button>
+<mat-dialog-content class = "mat-dialog-content">
+    <div>
+        <h2 mat-dialog-title>Pinnacle-Wholesale</h2>
+        <p>Item Number: {{ data.item_id }}</p>
+        <div class = "row mat-dialog-actions">
+            <p class="col">MSRP: {{ data.sell_price }}</p>
+            <p class="col">Our Price: {{ data.salvage_amount }}</p>
+        </div>
     </div>
-  </mat-dialog-actions>
+    <!-- <h3>Barcode</h3> -->
+    <div ><svg id="barcode"></svg></div>
+    <mat-dialog-actions>
+        <div class="label-printer-actions">
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-button [mat-dialog-close]="data" cdkFocusInitial (click)="printDialog()">Print</button>
+        </div>
+    </mat-dialog-actions>
 </mat-dialog-content>
