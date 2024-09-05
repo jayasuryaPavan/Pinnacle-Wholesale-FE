@@ -8,9 +8,9 @@ import { CommonModule } from '@angular/common';  // Import CommonModule if you n
   selector: 'app-label-printer',
   standalone: true,
   imports: [
-    CommonModule,          // Add CommonModule if needed
-    MatDialogModule,       // Correctly import MatDialogModule
-    MatButtonModule        // Correctly import MatButtonModule
+    CommonModule,          
+    MatDialogModule,       
+    MatButtonModule        
   ],
   templateUrl: './label-printer.component.html',
   styleUrls: ['./label-printer.component.css']

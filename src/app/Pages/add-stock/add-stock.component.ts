@@ -18,6 +18,7 @@ export class AddStockComponent {
   receivedItems = 29;
   totalCount = 0;
   isSearchDisabled: boolean = false;
+  searchedBarcode: String = '';
   // searchText: String = '';
 
   constructor( public dialog: MatDialog ){
@@ -34,7 +35,7 @@ export class AddStockComponent {
     const dialogRef = this.dialog.open(ItemNumberDialogComponent, {
       width : 'auto',  // Set width to avoid excessive stretching
       height : 'auto',
-      data: { recipient: '', message: '' }
+      data: { barcode: this.searchedBarcode, itemNumber: '' }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -43,8 +44,9 @@ export class AddStockComponent {
     });
   }
 
-  searchItem(itemNumber: String){
-    console.log('inside the searchItem',itemNumber);
+  searchItem(barcode: String){
+    console.log('inside the searchItem',barcode);
+    this.searchedBarcode = barcode;
     this.isSearchDisabled = true;
     if(true){
       this.openDialog();
