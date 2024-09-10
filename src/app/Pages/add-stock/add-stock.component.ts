@@ -58,8 +58,8 @@ export class AddStockComponent {
     const dialogConfig = new MatDialogConfig();
 
     const dialogRef = this.dialog.open(LabelPrinterComponent, {
-      width : '400px',  // Set width to avoid excessive stretching
-      // height : '400px',
+      width : '500px',  // Set width to avoid excessive stretching
+       //height : '320px',
       data: item
     });
 
