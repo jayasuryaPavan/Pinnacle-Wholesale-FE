@@ -8,5 +8,9 @@
       <h3>Extracted Text:</h3>
       <pre>{{ extractedText | json }}</pre>
     </div>
+
+    <div *ngFor="let image of extractedImages">
+      <img [src]="image" alt="Extracted Image" />
+    </div>
 </div>
   

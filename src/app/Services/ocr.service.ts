@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import Tesseract from 'tesseract.js';
 
 @Injectable({
@@ -8,60 +7,29 @@ import Tesseract from 'tesseract.js';
 })
 export class OcrService {
 
-  // private apiKey = 'YOUR_GOOGLE_CLOUD_VISION_API_KEY';
-
   constructor(private http: HttpClient) { }
 
-  // recognizeText(base64Image: string): Observable<any> {
-  //   const request = {
-  //     requests: [
-  //       {
-  //         image: {
-  //           content: base64Image
-  //         },
-  //         features: [
-  //           {
-  //             type: 'TEXT_DETECTION'
-  //           }
-  //         ]
-  //       }
-  //     ]
-  //   };
-
-  //   return this.http.post(
-  //     `https://vision.googleapis.com/v1/images:annotate?key=${this.apiKey}`,
-  //     request
-  //   );
-  // }
-
-  /********* Using Tesseract ********/
-
+  // Recognize text using Tesseract
   recognizeText(image: File): Promise<string> {
     return Tesseract.recognize(image, 'eng', {
       logger: (m) => console.log(m)
-    })
-    .then(({ data: { text } }) => {
-      return this.transformData(text);
-    })
+    }).then(({ data: { text } }) => {
+      return text; // Return the extracted text
+    });
   }
 
-  private transformData(text: string): any {
-    console.log(text);
-    // const lines = text.split('\n').filter(line => line.trim() !== '');
-    const lines = text.split('\n');
-    const items = lines.map(line => {
-    // const items = lines.slice(1).map(line => {
-      const [item_id, description, , quantity, sell_price, ext_sell_price, salvage_percentage, salvage_amount] = line.split(/\s+/);
-      return {
-        item_id,
-        description,
-        quantity: parseFloat(quantity),
-        sell_price: parseFloat(sell_price),
-        ext_sell_price: parseFloat(ext_sell_price),
-        salvage_percentage: parseFloat(salvage_percentage),
-        salvage_amount: parseFloat(salvage_amount)
-      };
-    });
-    return { items };
+  // Convert Base64 image to Blob (Utility function)
+  convertBase64ToBlob(base64Image: string): Blob {
+    const byteString = atob(base64Image.split(',')[1]);
+    const mimeString = base64Image.split(',')[0].split(':')[1].split(';')[0];
+    
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const uintArray = new Uint8Array(arrayBuffer);
+    
+    for (let i = 0; i < byteString.length; i++) {
+      uintArray[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([arrayBuffer], { type: mimeString });
   }
 }
