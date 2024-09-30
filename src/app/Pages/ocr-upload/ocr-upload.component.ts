@@ -3,19 +3,20 @@ import { OcrService } from '../../Services/ocr.service';
 import { CommonModule } from '@angular/common';
 import { GlobalWorkerOptions, getDocument, version } from 'pdfjs-dist';
 import Pica from 'pica';
+import { FormsModule } from '@angular/forms';
 
 GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.mjs`;
 
 @Component({
   selector: 'app-ocr-upload',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './ocr-upload.component.html',
   styleUrl: './ocr-upload.component.css'
 })
 export class OcrUploadComponent {
   isLoading: boolean = false;
-  extractedText: string[] = [];
+  extractedText: any[] = [];
   extractedImages: string[] = [];
   pica = Pica(); // Initialize Pica for image processing
 
@@ -85,6 +86,12 @@ export class OcrUploadComponent {
             const text = await this.ocrService.recognizeText(processedFile);
             this.extractedText.push(text); // Store the extracted text
           }
+          const reqPayload = this.extractedText.flat().filter(item => item !== null && item !== undefined);
+          this.ocrService.loadNewBatch(reqPayload).subscribe(res =>{
+            if(res === true){           
+              this.ocrService.extractedText = reqPayload;
+            }
+          })
 
           this.isLoading = false;
         } catch (error) {

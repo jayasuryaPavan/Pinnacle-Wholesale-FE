@@ -1,16 +1,15 @@
 <div class="container">
     <h2>Please add your pdf file here</h2>
-    <input type="file" (change)="onFileSelected($event)" accept="application/pdf">
-    
+      <input type="file" (change)="onFileSelected($event)" accept="application/pdf">
     <div *ngIf="isLoading">Processing image, please wait...</div>
     
-    <div *ngIf="extractedText">
+    <!-- <div *ngIf="extractedText">
       <h3>Extracted Text:</h3>
       <pre>{{ extractedText | json }}</pre>
-    </div>
+    </div> -->
 
-    <div *ngFor="let image of extractedImages">
+    <!-- <div *ngFor="let image of extractedImages">
       <img [src]="image" alt="Extracted Image" />
-    </div>
+    </div> -->
 </div>
   

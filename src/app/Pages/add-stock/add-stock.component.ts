@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { AfterContentChecked, Component, OnChanges } from '@angular/core';
 import { itemsData } from '../../Services/data';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ItemNumberDialogComponent } from '../../ChildComponents/item-number-dialog/item-number-dialog.component';
 import { LabelPrinterComponent } from '../../ChildComponents/label-printer/label-printer.component';
 import { OcrUploadComponent } from "../ocr-upload/ocr-upload.component";
 import { FormsModule } from '@angular/forms';
+import { OcrService } from '../../Services/ocr.service';
 
 @Component({
   selector: 'app-add-stock',
@@ -14,18 +15,22 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './add-stock.component.html',
   styleUrl: './add-stock.component.css'
 })
-export class AddStockComponent {
+export class AddStockComponent implements AfterContentChecked{
   receivedItems = 29;
   totalCount = 0;
   isSearchDisabled: boolean = false;
   searchedBarcode: String = '';
+  items: any = [];
   // searchText: String = '';
 
-  constructor( public dialog: MatDialog ){
-    this.totalCount = itemsData.items.length;
+  constructor( public dialog: MatDialog, private ocrServ: OcrService){
+ 
   }
 
-  items = itemsData.items;
+  ngAfterContentChecked(): void {
+    this.totalCount = this.items.length;
+    console.log(this.items)
+  }
 
 
   openDialog(): void {
