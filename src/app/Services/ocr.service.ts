@@ -76,6 +76,8 @@ export class OcrService {
         ItemQuantity: itemQuantityPart ? itemQuantityPart : 1,  // Second-to-last part is the quantity
         SellPrice: sellPricePart ? sellPricePart : "0.00",  // Second-to-last part is the sell price
         ExtSellPrice: extSellPricePart ? extSellPricePart : "0.00",  // Last part is the extended sell price
+        SalvagePercentage: "0.00",
+        SalvageAmount: "0.00"
       };
     }); 
   }
@@ -97,5 +99,9 @@ export class OcrService {
 
   loadNewBatch(reqPayload: any): Observable<any>{
     return this.http.post(this.localProduct+'loadNewBatch',reqPayload);
+  }
+
+  getProductInfoByItemId(itemId: any): Observable<any>{
+    return this.http.get(`${this.localProduct}getProductInfoByItemId?productId=${itemId}`);
   }
 }

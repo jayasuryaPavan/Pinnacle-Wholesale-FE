@@ -12,6 +12,6 @@
 </div>
 
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Confirm</button>
+  <button mat-button mat-dialog-close (click) = "dialogRef.close({msg: 'close'})">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" (click) = "dialogRef.close({msg: 'confirm',data: data})">Confirm</button>
 </div>

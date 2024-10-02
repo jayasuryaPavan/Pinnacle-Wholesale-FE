@@ -28,6 +28,6 @@ export class ItemNumberDialogComponent {
   ) {}
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close({msg: 'close'});
   }
 }

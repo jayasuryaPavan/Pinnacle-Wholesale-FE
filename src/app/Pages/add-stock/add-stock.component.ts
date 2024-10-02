@@ -29,7 +29,6 @@ export class AddStockComponent implements AfterContentChecked{
 
   ngAfterContentChecked(): void {
     this.totalCount = this.items.length;
-    console.log(this.items)
   }
 
 
@@ -45,7 +44,12 @@ export class AddStockComponent implements AfterContentChecked{
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      console.log(result); // The result will have the recipient and message
+      this.isSearchDisabled = false;
+      if(result.msg === 'confirm'){
+        this.ocrServ.getProductInfoByItemId(result.data.itemNumber).subscribe(res => {
+          console.log('productInfo-->', res);
+        })
+      }
     });
   }
 
@@ -70,7 +74,6 @@ export class AddStockComponent implements AfterContentChecked{
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      console.log(result); // The result will have the recipient and message
     });
   }
 }
