@@ -1,0 +1,23 @@
+.table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table thead th {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  .table tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .table tbody td.price {
+    color: blue;
+  }
+  
+  .table tbody td.store-price {
+    color: red;
+  }

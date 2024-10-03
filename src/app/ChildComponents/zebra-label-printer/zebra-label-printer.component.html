@@ -1,0 +1,25 @@
+<div>
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Item ID</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Actual S.P.</th>
+            <th>Store S.P.</th>
+            <th>Label</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items">
+            <td>{{ item.ItemId }}</td>
+            <td>{{ item.Description }}</td>
+            <td>{{ item.ItemQuantity }}</td>
+            <td class="price">{{ item.SellPrice }}</td>
+            <!-- <td class="price store-price">{{ item.salvage_amount }}</td> -->
+            <td><input type="text" class = "form-control-2" placeholder="Enter store S.P" [(ngModel)] = "item.SalvageAmount" (keyup.enter) = "onPrintLabel(item)"></td>
+            <td><button class="btn btn-success" (click) = "onPrintLabel(item)">Print Label</button></td>
+          </tr>
+        </tbody>
+      </table>
+</div>
