@@ -1,19 +1,25 @@
+<!DOCTYPE html>
 <div class="container">
     <div class="header">
       <app-logo-canvas></app-logo-canvas>
+
+    </div>
+<hr>
+    <div class="upload-section">
+      <div><app-ocr-upload></app-ocr-upload></div>
       <button class="btn btn-primary" (click)="openDialog()">Add Item to the Barcode</button>
     </div>
-  
-    <div class="upload-section">
-      <app-ocr-upload ></app-ocr-upload>
-    </div>
-  
+<hr>
     <div class="filter-section input-group mb-3">
-      <input type="text" #search placeholder="Search Item ID" class="form-control" (keyup.enter)="searchItem(search.value)" />
-      <button [class]="isSearchDisabled ? 'btn search-btn' : 'btn btn-primary search-btn'" type="button" (click)="searchItem(search.value)" [disabled]="isSearchDisabled">Search</button>
+      <div>
+        <input type="text" #search placeholder="Search Item ID" class="form-control" (keyup.enter)="searchItem(search.value)" />
+      <button [class]="isSearchDisabled ? 'btn search-btn' : 'btn btn-primary search-btn'" type="button"
+        (click)="searchItem(search.value)" [disabled]="isSearchDisabled">Search</button>
+      </div>
+          <span id="received-items">Received items: {{ totalCount }}</span>
     </div>
-  
-    <span>Received items: {{ totalCount }}</span>
+
+
 
     <div *ngIf = "isLabelPrinter">
       <app-zebra-label-printer [items] = "items"></app-zebra-label-printer>
@@ -41,4 +47,3 @@
       </table>
     </div>
   </div>
-  

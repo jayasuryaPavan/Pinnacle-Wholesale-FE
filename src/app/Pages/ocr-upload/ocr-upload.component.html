@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <div class="container">
-    <h2>Please add your pdf file here</h2>
+    <h4>Please add your pdf file here</h4>
       <input type="file" (change)="onFileSelected($event)" accept="application/pdf">
     <div *ngIf="isLoading">Processing image, please wait...</div>
-    
+
     <!-- <div *ngIf="extractedText">
       <h3>Extracted Text:</h3>
       <pre>{{ extractedText | json }}</pre>
@@ -12,4 +13,3 @@
       <img [src]="image" alt="Extracted Image" />
     </div> -->
 </div>
-  

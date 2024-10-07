@@ -63,7 +63,7 @@ export class AddStockComponent implements AfterContentChecked{
     this.searchedBarcode = barcode;
     this.isSearchDisabled = true;
     if(true){
-      this.openDialog();
+      // this.openDialog();
     }
   }
 }

@@ -5,7 +5,7 @@
 
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 20px;
 }
@@ -13,7 +13,8 @@
 .upload-section {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  margin: 20px;
 }
 
 .search-btn {
@@ -27,15 +28,21 @@
 
 .filter-section {
   display: flex;
-  align-items: center;
-  margin-bottom: 20px;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin: 20px;
 }
 
 .filters {
   display: flex;
   gap: 10px;
 }
-
+#received-items{
+  font-size:medium;
+  color: #007bff;
+  border: solid 1px rgb(207, 200, 200);
+  padding: 3px;
+}
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -100,3 +107,4 @@
   display: flex;
   justify-content: flex-end;
 }
+
