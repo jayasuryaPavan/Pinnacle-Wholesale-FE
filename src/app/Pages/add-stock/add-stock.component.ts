@@ -6,11 +6,12 @@ import { OcrUploadComponent } from "../ocr-upload/ocr-upload.component";
 import { FormsModule } from '@angular/forms';
 import { OcrService } from '../../Services/ocr.service';
 import { ZebraLabelPrinterComponent } from "../../ChildComponents/zebra-label-printer/zebra-label-printer.component";
+import { LogoCanvasComponent } from '../../ChildComponents/logo-canvas/logo-canvas.component';
 
 @Component({
   selector: 'app-add-stock',
   standalone: true,
-  imports: [CommonModule, OcrUploadComponent, FormsModule, ZebraLabelPrinterComponent],
+  imports: [CommonModule, OcrUploadComponent, FormsModule, ZebraLabelPrinterComponent, LogoCanvasComponent],
   templateUrl: './add-stock.component.html',
   styleUrl: './add-stock.component.css'
 })
