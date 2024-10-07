@@ -24,7 +24,7 @@ export class LogoCanvasComponent implements AfterViewInit {
 
   loadImageToCanvas(): void {
     const img = new Image();
-    img.src = '../../../assets/Pinnacle_logo.jpg';  // Make sure the image is in the 'assets' folder
+    img.src = 'assets/Pinnacle_logo.jpg';  // Make sure the image is in the 'assets' folder
     img.onload = () => {
       if(this.context)
         this.context.drawImage(img, 0, 0, 250, 60);  // Adjust these dimensions as needed
