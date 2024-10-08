@@ -9,7 +9,7 @@
     </div>
   
     <div class="filter-section input-group mb-3">
-      <input type="text" #search placeholder="Search Item ID" class="form-control" (keyup.enter)="searchItem(search.value)" />
+      <input type="text" #search placeholder="Search Barcode" class="form-control" (keyup.enter)="searchItem(search.value)" />
       <button [class]="isSearchDisabled ? 'btn search-btn' : 'btn btn-primary search-btn'" type="button" (click)="searchItem(search.value)" [disabled]="isSearchDisabled">Search</button>
     </div>
   

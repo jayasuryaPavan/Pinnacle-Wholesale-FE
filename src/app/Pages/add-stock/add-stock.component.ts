@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentChecked, Component } from '@angular/core';
+import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ItemNumberDialogComponent } from '../../ChildComponents/item-number-dialog/item-number-dialog.component';
 import { OcrUploadComponent } from "../ocr-upload/ocr-upload.component";
@@ -15,7 +15,7 @@ import { LogoCanvasComponent } from '../../ChildComponents/logo-canvas/logo-canv
   templateUrl: './add-stock.component.html',
   styleUrl: './add-stock.component.css'
 })
-export class AddStockComponent implements AfterContentChecked{
+export class AddStockComponent implements AfterContentChecked, OnInit{
   receivedItems = 29;
   totalCount = 0;
   isSearchDisabled: boolean = false;
@@ -38,6 +38,13 @@ export class AddStockComponent implements AfterContentChecked{
     this.totalCount = this.items.length;
   }
 
+  ngOnInit(): void {
+    this.ocrServ.getImportedData().subscribe((res: any) => {
+      this.isLabelPrinter = false;
+      console.log("imported--->",res)
+      this.items = res;
+    })
+  }
 
   openDialog(): void {
 

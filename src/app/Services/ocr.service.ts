@@ -104,4 +104,8 @@ export class OcrService {
   getProductInfoByItemId(itemId: any): Observable<any>{
     return this.http.get(`${this.localProduct}getProductInfoByItemId?productId=${itemId}`);
   }
+
+  getImportedData(): Observable<any> {
+    return this.http.get(this.localProduct+"GetImportedData");
+  }
 }

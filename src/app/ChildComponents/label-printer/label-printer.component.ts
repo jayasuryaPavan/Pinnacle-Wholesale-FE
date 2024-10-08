@@ -83,14 +83,15 @@ export class LabelPrinterComponent implements OnInit {
 
           ^FX Second section with Actual Selling Price and Store selling Price.
           ^CFA,25
-          ^FO120,94^FDItem: ${this.data.ItemId}^FS
-          ^FO120,130^FDMSRP: ${this.data.SellPrice}$^FS
+          ^FO120,110^FDMSRP: ${this.data.SellPrice}$^FS
           ^CF0,39
           ^FO440,105^FDOur Price: ${this.data.SalvageAmount}$^FS
 
           ^FX Third section with bar code.
-          ^BY3,2,90
-          ^FO200,170^BC^FD${this.data.Barcode}^FS
+          ^CFA,25
+          ^FO250,155^FDItem: ${this.data.ItemId}^FS
+          ^BY3,2,80
+          ^FO200,190^BC^FD${this.data.Barcode}^FS
 
           ^XZ`
 
