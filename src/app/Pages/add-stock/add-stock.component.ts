@@ -30,7 +30,17 @@ export class AddStockComponent implements AfterContentChecked, OnInit{
 		"SalvageAmount": "0.00",
     "Barcode": 6562196415
 	}];
-  isLabelPrinter: boolean = true;
+  isLabelPrinter: boolean = false;
+  labelItem: any = [{
+    "ItemId": "1324325",
+		"Description": "STRUBS HOT PEPPERS",
+		"ItemQuantity": 1,
+		"SellPrice": "6.49",
+		"ExtSellPrice": "6.49",
+		"SalvagePercentage": "0.00",
+		"SalvageAmount": "0.00",
+    "Barcode": 6562196415
+  }]
 
   constructor( public dialog: MatDialog, private ocrServ: OcrService){}
 
@@ -39,11 +49,30 @@ export class AddStockComponent implements AfterContentChecked, OnInit{
   }
 
   ngOnInit(): void {
+    this.getImportedData();
+  }
+
+  getImportedData(): void{
     this.ocrServ.getImportedData().subscribe((res: any) => {
       this.isLabelPrinter = false;
       console.log("imported--->",res)
-      this.items = res;
+      this.items = [];
+      for(let item of res){
+        this.items.push({
+          "ItemId": item.itemId,
+          "Description": item.description,
+          "ItemQuantity": item.itemQuantity,
+          "SellPrice": item.sellPrice,
+          "ExtSellPrice": item.extSellPrice,
+          "SalvagePercentage": "0.00",
+          "SalvageAmount": "0.00"
+        })  
+      }
     })
+  }
+
+  labelPrinted(): void{
+    this.getImportedData();
   }
 
   openDialog(): void {
@@ -58,19 +87,48 @@ export class AddStockComponent implements AfterContentChecked, OnInit{
       console.log('The dialog was closed');
       this.isSearchDisabled = false;
       if(result.msg === 'confirm'){
-        this.ocrServ.getProductInfoByItemId(result.data.itemNumber).subscribe(res => {
-          console.log('productInfo-->', res);
+        this.ocrServ.UpdateBarcodeByItemId(result.data.itemNumber, result.data.barcode).subscribe(item => {
+          if(item.id !== 0){
+            this.isLabelPrinter = true;
+            this.labelItem = [];
+            console.log('productInfo-->', item);
+            this.labelItem.push({
+              "ItemId": item.itemId,
+              "Description": item.description,
+              "ItemQuantity": item.itemQuantity,
+              "SellPrice": item.sellPrice,
+              "ExtSellPrice": item.extSellPrice,
+              "Barcode": item.barcodeValue,
+              "SalvagePercentage": "0.00",
+              "SalvageAmount": item.salvageAmount
+            })
+          }
         })
       }
     });
   }
 
   searchItem(barcode: String){
-    console.log('inside the searchItem',barcode);
     this.searchedBarcode = barcode;
     this.isSearchDisabled = true;
-    if(true){
-      // this.openDialog();
-    }
+    // this.openDialog();
+    this.ocrServ.getProductInfoByBarcode(barcode).subscribe(item => {
+      if(item.id === 0)
+        this.openDialog();
+      else{
+        this.isLabelPrinter = true;
+        this.labelItem = [];
+        this.labelItem.push({
+          "ItemId": item.itemId,
+          "Description": item.description,
+          "ItemQuantity": item.itemQuantity,
+          "SellPrice": item.sellPrice,
+          "ExtSellPrice": item.extSellPrice,
+          "Barcode": item.barcodeValue,
+          "SalvagePercentage": "0.00",
+          "SalvageAmount": "0.00"
+        })
+      }
+    })
   }
 }

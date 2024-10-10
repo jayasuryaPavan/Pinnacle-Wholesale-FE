@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { OcrService } from '../../Services/ocr.service';
 import { CommonModule } from '@angular/common';
 import { GlobalWorkerOptions, getDocument, version } from 'pdfjs-dist';
@@ -15,6 +15,8 @@ GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/$
   styleUrl: './ocr-upload.component.css'
 })
 export class OcrUploadComponent {
+  @Output() loadImportedData = new EventEmitter<string>();
+
   isLoading: boolean = false;
   extractedText: any[] = [];
   extractedImages: string[] = [];
@@ -89,7 +91,7 @@ export class OcrUploadComponent {
           const reqPayload = this.extractedText.flat().filter(item => item !== null && item !== undefined);
           this.ocrService.loadNewBatch(reqPayload).subscribe(res =>{
             if(res === true){           
-              this.ocrService.extractedText = reqPayload;
+              this.loadImportedData.emit('loadImportedData');
             }
           })
 

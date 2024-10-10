@@ -83,19 +83,20 @@ export class LabelPrinterComponent implements OnInit {
 
           ^FX Second section with Actual Selling Price and Store selling Price.
           ^CFA,25
-          ^FO120,110^FDMSRP: ${this.data.SellPrice}$^FS
-          ^CF0,39
-          ^FO440,105^FDOur Price: ${this.data.SalvageAmount}$^FS
+          ^FO120,110^FDMSRP: $${this.data.SellPrice}^FS
+          ^CFB,35
+          ^FO440,105^FDOur Price: $${this.data.SalvageAmount}^FS
 
           ^FX Third section with bar code.
           ^CFA,25
           ^FO250,155^FDItem: ${this.data.ItemId}^FS
-          ^BY3,2,80
-          ^FO200,190^BC^FD${this.data.Barcode}^FS
+          ^BY2,2,80
+          ^FO185,190^BC^FD${this.data.Barcode}^FS
 
           ^XZ`
 
           browserPrint.print(zpl);
+          this.dialogRef.close('labelprinted');
       } 
       else {
         console.log("Error/s", printerStatus.errors);

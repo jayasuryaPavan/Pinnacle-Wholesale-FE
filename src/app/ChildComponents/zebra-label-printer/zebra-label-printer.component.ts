@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LabelPrinterComponent } from '../label-printer/label-printer.component';
+import { OcrService } from '../../Services/ocr.service';
 
 @Component({
   selector: 'app-zebra-label-printer',
@@ -13,8 +14,9 @@ import { LabelPrinterComponent } from '../label-printer/label-printer.component'
 })
 export class ZebraLabelPrinterComponent {
   @Input() items: any = [];
+  @Output() labelPrinted = new EventEmitter<string>();
 
-  constructor(public dialog: MatDialog){}
+  constructor(public dialog: MatDialog, private ocrServ: OcrService){}
 
   onPrintLabel(item: any) {
     // Logic to print the label for the item
@@ -28,6 +30,13 @@ export class ZebraLabelPrinterComponent {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log('The dialog was closed');
+      if(result === 'labelPrinted'){
+        this.ocrServ.UpdateSellingPrice(item.ItemId, item.salvageAmount).subscribe(res => {
+          if(res === true){
+            this.labelPrinted.emit('saved');
+          }
+        })
+      }
     });
   }
 }

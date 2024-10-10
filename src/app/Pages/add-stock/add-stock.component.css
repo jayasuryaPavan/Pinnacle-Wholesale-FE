@@ -37,14 +37,18 @@
   display: flex;
   gap: 10px;
 }
+
 #received-items{
   font-size:medium;
-  color: #007bff;
-  border: solid 1px rgb(207, 200, 200);
   padding: 3px;
 }
+#totalCount{
+  color: #007bff;
+}
+
 .table {
-  width: 100%;
+  margin-left: 5%;
+  width: 90%;
   border-collapse: collapse;
 }
 

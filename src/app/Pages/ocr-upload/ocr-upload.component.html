@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <div class="container">
-    <h4>Please add your pdf file here</h4>
-      <input type="file" (change)="onFileSelected($event)" accept="application/pdf">
-    <div *ngIf="isLoading">Processing image, please wait...</div>
+    <!-- <h4>Please add your pdf file here</h4> -->
+      <button class="btn btn-success" (click)="fileInput.click()">Upload PDF</button>
+      <input #fileInput type="file" (change)="onFileSelected($event)" accept="application/pdf" style="display: none;">
+    <div *ngIf="isLoading">Processing image, please wait...</div>   
 
     <!-- <div *ngIf="extractedText">
       <h3>Extracted Text:</h3>

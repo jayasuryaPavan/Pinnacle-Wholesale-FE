@@ -105,7 +105,19 @@ export class OcrService {
     return this.http.get(`${this.localProduct}getProductInfoByItemId?productId=${itemId}`);
   }
 
+  getProductInfoByBarcode(barcode: any): Observable<any>{
+    return this.http.get(`${this.localProduct}getProductInfoByBarcode?barcode=${barcode}`);
+  }
+
   getImportedData(): Observable<any> {
-    return this.http.get(this.localProduct+"GetImportedData");
+    return this.http.get(this.localProduct+"getImportedData");
+  }
+
+  UpdateBarcodeByItemId(itemId: string, barcode: string): Observable<any> {
+    return this.http.post(`${this.localProduct}UpdateBarcodeByItemId?itemId=${itemId}&barcode=${barcode}`,{});
+  }
+
+  UpdateSellingPrice(itemId: string, ourSellingPrice: string): Observable<any> {
+    return this.http.post(`${this.localProduct}UpdateSellingPrice?itemId=${itemId}&OurSellingPrice=${ourSellingPrice}`,{});
   }
 }

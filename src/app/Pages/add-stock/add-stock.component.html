@@ -4,25 +4,23 @@
       <app-logo-canvas></app-logo-canvas>
 
     </div>
-<hr>
     <div class="upload-section">
-      <div><app-ocr-upload></app-ocr-upload></div>
+      <div><app-ocr-upload (loadImportedData)="ngOnInit()"></app-ocr-upload></div>
       <button class="btn btn-primary" (click)="openDialog()">Add Item to the Barcode</button>
     </div>
-<hr>
     <div class="filter-section input-group mb-3">
       <div>
-        <input type="text" #search placeholder="Search Item ID" class="form-control" (keyup.enter)="searchItem(search.value)" />
+        <input type="text" #search placeholder="Search Barcode" class="form-control" (keyup.enter)="searchItem(search.value)" />
       <button [class]="isSearchDisabled ? 'btn search-btn' : 'btn btn-primary search-btn'" type="button"
         (click)="searchItem(search.value)" [disabled]="isSearchDisabled">Search</button>
       </div>
-          <span id="received-items">Received items: {{ totalCount }}</span>
+        <span id="received-items">Received items: <span id = "totalCount">{{ totalCount }}</span></span>
     </div>
 
 
 
     <div *ngIf = "isLabelPrinter">
-      <app-zebra-label-printer [items] = "items"></app-zebra-label-printer>
+      <app-zebra-label-printer [items] = "labelItem" (labelPrinted)="labelPrinted()"></app-zebra-label-printer>
     </div>
     <div *ngIf = "!isLabelPrinter">
       <table class="table">
@@ -39,7 +37,7 @@
           <tr *ngFor="let item of items">
             <!-- <td><input type="checkbox" /></td> -->
             <td>{{ item.ItemId }}</td>
-            <td>{{ item.Description }}</td>
+            <td>{{ item.Description | titlecase }}</td>
             <td>{{ item.ItemQuantity }}</td>
             <td class="price">{{ item.SellPrice }}</td>
           </tr>
