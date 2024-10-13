@@ -51,8 +51,8 @@
 }
 
 .table {
-  margin-left: 5%;
-  width: 90%;
+  margin-left: 1%;
+  width: 99%;
   border-collapse: collapse;
 }
 
@@ -90,6 +90,17 @@
 .btn-success {
   background-color: #28a745;
   color: #fff;
+}
+
+.btn-status {
+  background-color: #d8e213;
+  color: #070101;
+}
+
+.btn-disable {
+  background-color: #777978;
+  color: #fff;
+  cursor: not-allowed;
 }
 
 .form-control {

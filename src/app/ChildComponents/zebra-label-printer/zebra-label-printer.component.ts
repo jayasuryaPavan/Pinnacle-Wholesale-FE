@@ -4,11 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LabelPrinterComponent } from '../label-printer/label-printer.component';
 import { OcrService } from '../../Services/ocr.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-zebra-label-printer',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './zebra-label-printer.component.html',
   styleUrl: './zebra-label-printer.component.css'
 })

@@ -120,4 +120,8 @@ export class OcrService {
   UpdateSellingPrice(itemId: string, ourSellingPrice: string): Observable<any> {
     return this.http.post(`${this.localProduct}UpdateSellingPrice?itemId=${itemId}&OurSellingPrice=${ourSellingPrice}`,{});
   }
+
+  UpdateImportDataInfo(item: any): Observable<any>{
+    return this.http.post(this.localProduct+"UpdateImportDataInfo",item);
+  }
 }

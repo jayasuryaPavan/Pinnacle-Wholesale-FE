@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ItemNumberDialogComponent } from '../../ChildComponents/item-number-dialog/item-number-dialog.component';
 import { OcrUploadComponent } from "../ocr-upload/ocr-upload.component";
 import { FormsModule } from '@angular/forms';
@@ -8,20 +9,24 @@ import { OcrService } from '../../Services/ocr.service';
 import { ZebraLabelPrinterComponent } from "../../ChildComponents/zebra-label-printer/zebra-label-printer.component";
 import { LogoCanvasComponent } from '../../ChildComponents/logo-canvas/logo-canvas.component';
 import { PrinterStatusComponent } from '../../ChildComponents/printer-status/printer-status.component';
+import ZebraBrowserPrintWrapper from 'zebra-browser-print-wrapper-https';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-add-stock',
   standalone: true,
-  imports: [CommonModule, OcrUploadComponent, FormsModule, ZebraLabelPrinterComponent, LogoCanvasComponent],
+  imports: [CommonModule, OcrUploadComponent, FormsModule, ZebraLabelPrinterComponent, MatLabel, MatInput, MatFormField, MatCheckboxModule, LogoCanvasComponent],
   templateUrl: './add-stock.component.html',
   styleUrl: './add-stock.component.css'
 })
-export class AddStockComponent implements AfterContentChecked, OnInit{
+export class AddStockComponent implements OnInit{
   receivedItems = 29;
   totalCount = 0;
   isSearchDisabled: boolean = false;
   searchedBarcode: String = '';
   items: any = [{
+    "Id": 0,
 		"ItemId": "1324325",
 		"Description": "STRUBS HOT PEPPERS",
 		"ItemQuantity": 1,
@@ -33,6 +38,7 @@ export class AddStockComponent implements AfterContentChecked, OnInit{
 	}];
   isLabelPrinter: boolean = false;
   labelItem: any = [{
+    "Id": 0,
     "ItemId": "1324325",
 		"Description": "STRUBS HOT PEPPERS",
 		"ItemQuantity": 1,
@@ -43,12 +49,9 @@ export class AddStockComponent implements AfterContentChecked, OnInit{
     "Barcode": 6562196415
   }]
   totalQuant: number = 0;
+  isPrinterConnected: boolean = false;
 
   constructor( public dialog: MatDialog, private ocrServ: OcrService){}
-
-  ngAfterContentChecked(): void {
-    this.totalCount = this.items.length;
-  }
 
   ngOnInit(): void {
     this.getImportedData();
@@ -62,14 +65,16 @@ export class AddStockComponent implements AfterContentChecked, OnInit{
       this.totalQuant = 0;
       for(let item of res){
         this.items.push({
-          "ItemId": item.itemId,
-          "Description": item.description,
-          "ItemQuantity": item.itemQuantity,
-          "SellPrice": item.sellPrice,
-          "ExtSellPrice": item.extSellPrice,
-          "SalvagePercentage": "0.00",
-          "SalvageAmount": "0.00"
+          "Id": item.id || item.Id,
+          "ItemId": item.ItemId || item.itemId,
+          "Description": item.Description || item.description,
+          "ItemQuantity": item.ItemQuantity || item.itemQuantity,
+          "SellPrice": item.SellPrice || item.sellPrice,
+          "ExtSellPrice": item.ExtSellPrice || item.extSellPrice,
+          "SalvagePercentage": item.salvagePercentage || item.SalvagePercentage,
+          "SalvageAmount": item.SalvageAmount || item.salvageAmount
         })  
+        this.totalCount = this.items.length;
         this.totalQuant+=item.itemQuantity;
       }
     })
@@ -79,16 +84,39 @@ export class AddStockComponent implements AfterContentChecked, OnInit{
     this.getImportedData();
   }
 
-  printerStatus(): void{
-    const dialogRef = this.dialog.open(PrinterStatusComponent, {
-      width : 'auto',  // Set width to avoid excessive stretching
-      height : 'auto',
-      data: { barcode: this.searchedBarcode, itemNumber: '' }
-    });
+  async printerStatus(){
+    
+    try {
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log("Printer Status-->", result);
-    })
+      // Create a new instance of the object
+      const browserPrint =  new ZebraBrowserPrintWrapper();
+
+      console.log(browserPrint.getAvailablePrinters())
+
+      // Select default printer
+      const defaultPrinter =  await browserPrint.getDefaultPrinter();
+  
+      // Set the printer
+      browserPrint.setPrinter(defaultPrinter);
+
+      // Check printer status
+      const printerStatus = await browserPrint.checkPrinterStatus();
+
+      this.isPrinterConnected = printerStatus.isReadyToPrint;
+
+      const dialogRef = this.dialog.open(PrinterStatusComponent, {
+        width : 'auto',  // Set width to avoid excessive stretching
+        height : 'auto',
+        data: { isPrinterConnected: this.isPrinterConnected }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log("Printer Status-->", result);
+      })
+
+    } catch (error: any) {
+        throw new Error(error);
+    }
   }
 
   openDialog(): void {
@@ -118,6 +146,8 @@ export class AddStockComponent implements AfterContentChecked, OnInit{
               "SalvagePercentage": "0.00",
               "SalvageAmount": item.salvageAmount
             })
+            this.totalCount = this.labelItem.length;
+            this.totalQuant = item.itemQuantity;
           }
         })
       }
@@ -144,6 +174,28 @@ export class AddStockComponent implements AfterContentChecked, OnInit{
           "SalvagePercentage": "0.00",
           "SalvageAmount": "0.00"
         })
+        this.totalCount = this.labelItem.length;
+        this.totalQuant = item.itemQuantity;
+      }
+    })
+  }
+
+  updateItem(item: any){
+    item.selected = false;
+    let reqPayload = {
+      "id": item.Id,
+      "itemId": item.ItemId,
+      "description": item.Description,
+      "itemQuantity": item.ItemQuantity,
+      "sellPrice": item.SellPrice,
+      "extSellPrice": item.ExtSellPrice,
+      "salvagePercentage": item.SalvagePercentage,
+      "salvageAmount": item.SalvageAmount,
+      "isLabelPrinted": false
+    }
+    this.ocrServ.UpdateImportDataInfo(reqPayload).subscribe(res => {
+      if(res === true){
+        this.getImportedData();
       }
     })
   }

@@ -1,0 +1,28 @@
+.mat-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .mat-mdc-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 40px;
+  }
+  
+  .mat-mdc-dialog-content {
+    color: black;
+  }
+  
+  .mat-mdc-dialog-title {
+    text-align: center;
+  }
+  
+  [_ngcontent-ng-c4191372651] p{
+    text-align: center;
+    padding: 3px 0px 3px 0px;
+  }
+  .label-printer-actions {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    box-sizing: border-box;
+  }

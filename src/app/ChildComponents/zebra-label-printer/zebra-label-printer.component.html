@@ -17,7 +17,13 @@
             <td>{{ item.ItemQuantity }}</td>
             <td class="price">{{ item.SellPrice }}</td>
             <!-- <td class="price store-price">{{ item.salvage_amount }}</td> -->
-            <td><input type="text" class = "form-control-2" placeholder="Enter store S.P" [(ngModel)] = "item.SalvageAmount" (keyup.enter) = "onPrintLabel(item)"></td>
+            <!-- <td><input type="text" class = "form-control-2" placeholder="Enter store S.P" [(ngModel)] = "item.SalvageAmount" (keyup.enter) = "onPrintLabel(item)"></td> -->
+            <td>
+              <mat-form-field >
+                <mat-label>Enter Store Price</mat-label>
+                <input matInput type="text" placeholder="Enter Store Price" [(ngModel)]="item.SalvageAmount" (keyup.enter)="onPrintLabel(item)">
+              </mat-form-field>
+            </td>
             <td><button class="btn btn-success" (click) = "onPrintLabel(item)">Print Label</button></td>
           </tr>
         </tbody>

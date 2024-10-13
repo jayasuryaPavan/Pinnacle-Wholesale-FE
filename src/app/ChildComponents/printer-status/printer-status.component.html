@@ -3,10 +3,10 @@
     <div>
         <!-- <h2 mat-dialog-title>Printer Status</h2> -->
         <div class = "row mat-dialog-actions">
-            <span *ngIf="isPrinterConnected">
+            <span *ngIf="data.isPrinterConnected">
                 <h2>Zebra Printer is Connected</h2>
             </span>
-            <span *ngIf="!isPrinterConnected">
+            <span *ngIf="!data.isPrinterConnected">
                 <h2>Zebra Printer is not Connected</h2>
             </span>
         </div>
@@ -14,5 +14,6 @@
 
     <mat-dialog-actions>
         <div class="label-printer-actions"></div>
+        <button mat-button mat-dialog-close (click) = "dialogRef.close()">Cancel</button>
     </mat-dialog-actions>
 </mat-dialog-content>

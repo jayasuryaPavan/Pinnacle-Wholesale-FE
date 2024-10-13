@@ -6,7 +6,7 @@
     </div>
     <div class="upload-section">
       <div><app-ocr-upload (loadImportedData)="ngOnInit()"></app-ocr-upload></div>
-      <button class="btn btn-primary" (click)="printerStatus()">Check Printer Status</button>
+      <button class="btn btn-status" (click)="printerStatus()">Check Printer Status</button>
     </div>
     <div class="filter-section input-group mb-3">
       <div>
@@ -29,20 +29,38 @@
       <table class="table">
         <thead>
           <tr>
-            <!-- <th></th> -->
+            <th></th>
             <th>Item ID</th>
             <th>Name</th>
             <th>Quantity</th>
             <th>MSRP</th>
+            <th></th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngFor="let item of items">
-            <!-- <td><input type="checkbox" /></td> -->
+        <tbody *ngFor="let item of items">
+          <tr *ngIf = "!item.selected">
+            <td><mat-checkbox [(ngModel)]="item.selected"></mat-checkbox></td>
             <td>{{ item.ItemId }}</td>
             <td>{{ item.Description | titlecase }}</td>
             <td>{{ item.ItemQuantity }}</td>
             <td class="price">{{ item.SellPrice }}</td>
+            <td><button class="btn btn-disable" disabled>Update</button></td>
+          </tr>
+          <tr *ngIf = "item.selected">
+            <td><mat-checkbox [(ngModel)]="item.selected"></mat-checkbox></td>
+            <td><mat-form-field >
+              <input matInput type="text" placeholder="Enter Item Id" [(ngModel)]="item.ItemId">
+            </mat-form-field></td>
+            <td><mat-form-field >
+              <input matInput type="text" placeholder="Enter Item Description" [(ngModel)]="item.Description">
+            </mat-form-field></td>
+            <td><mat-form-field >
+              <input matInput type="text" placeholder="Enter Item Quantity" [(ngModel)]="item.ItemQuantity">
+            </mat-form-field></td>
+            <td><mat-form-field >
+              <input matInput type="text" placeholder="Enter MSRP of Item" [(ngModel)]="item.SellPrice">
+            </mat-form-field></td>
+            <td><button class="btn btn-success" (click) = "updateItem(item)">Update</button></td>
           </tr>
         </tbody>
       </table>
