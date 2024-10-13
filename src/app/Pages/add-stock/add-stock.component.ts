@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { OcrService } from '../../Services/ocr.service';
 import { ZebraLabelPrinterComponent } from "../../ChildComponents/zebra-label-printer/zebra-label-printer.component";
 import { LogoCanvasComponent } from '../../ChildComponents/logo-canvas/logo-canvas.component';
+import { PrinterStatusComponent } from '../../ChildComponents/printer-status/printer-status.component';
 
 @Component({
   selector: 'app-add-stock',
@@ -41,6 +42,7 @@ export class AddStockComponent implements AfterContentChecked, OnInit{
 		"SalvageAmount": "0.00",
     "Barcode": 6562196415
   }]
+  totalQuant: number = 0;
 
   constructor( public dialog: MatDialog, private ocrServ: OcrService){}
 
@@ -57,6 +59,7 @@ export class AddStockComponent implements AfterContentChecked, OnInit{
       this.isLabelPrinter = false;
       console.log("imported--->",res)
       this.items = [];
+      this.totalQuant = 0;
       for(let item of res){
         this.items.push({
           "ItemId": item.itemId,
@@ -67,12 +70,25 @@ export class AddStockComponent implements AfterContentChecked, OnInit{
           "SalvagePercentage": "0.00",
           "SalvageAmount": "0.00"
         })  
+        this.totalQuant+=item.itemQuantity;
       }
     })
   }
 
   labelPrinted(): void{
     this.getImportedData();
+  }
+
+  printerStatus(): void{
+    const dialogRef = this.dialog.open(PrinterStatusComponent, {
+      width : 'auto',  // Set width to avoid excessive stretching
+      height : 'auto',
+      data: { barcode: this.searchedBarcode, itemNumber: '' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log("Printer Status-->", result);
+    })
   }
 
   openDialog(): void {

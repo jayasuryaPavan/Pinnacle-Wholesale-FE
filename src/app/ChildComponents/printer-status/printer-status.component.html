@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<mat-dialog-content class = "mat-dialog-content">
+    <div>
+        <!-- <h2 mat-dialog-title>Printer Status</h2> -->
+        <div class = "row mat-dialog-actions">
+            <span *ngIf="isPrinterConnected">
+                <h2>Zebra Printer is Connected</h2>
+            </span>
+            <span *ngIf="!isPrinterConnected">
+                <h2>Zebra Printer is not Connected</h2>
+            </span>
+        </div>
+    </div>
+
+    <mat-dialog-actions>
+        <div class="label-printer-actions"></div>
+    </mat-dialog-actions>
+</mat-dialog-content>

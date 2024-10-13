@@ -28,7 +28,7 @@
 
 .filter-section {
   display: flex;
-  align-items: flex-end;
+  /* align-items: flex-end; */
   justify-content: space-between;
   margin: 20px;
 }
@@ -40,8 +40,12 @@
 
 #received-items{
   font-size:medium;
-  padding: 3px;
+  padding: 3px 33px;
 }
+#totalQuant{
+  color: #ff0011;
+}
+
 #totalCount{
   color: #007bff;
 }

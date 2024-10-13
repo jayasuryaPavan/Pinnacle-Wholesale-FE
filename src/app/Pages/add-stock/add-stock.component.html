@@ -6,7 +6,7 @@
     </div>
     <div class="upload-section">
       <div><app-ocr-upload (loadImportedData)="ngOnInit()"></app-ocr-upload></div>
-      <button class="btn btn-primary" (click)="openDialog()">Add Item to the Barcode</button>
+      <button class="btn btn-primary" (click)="printerStatus()">Check Printer Status</button>
     </div>
     <div class="filter-section input-group mb-3">
       <div>
@@ -14,7 +14,10 @@
       <button [class]="isSearchDisabled ? 'btn search-btn' : 'btn btn-primary search-btn'" type="button"
         (click)="searchItem(search.value)" [disabled]="isSearchDisabled">Search</button>
       </div>
+      <div class="row">
+        <span >Total Quantity:<span id = "totalQuant">{{ totalQuant }}</span></span>
         <span id="received-items">Received items: <span id = "totalCount">{{ totalCount }}</span></span>
+      </div>
     </div>
 
 
@@ -30,7 +33,7 @@
             <th>Item ID</th>
             <th>Name</th>
             <th>Quantity</th>
-            <th>Actual S.P.</th>
+            <th>MSRP</th>
           </tr>
         </thead>
         <tbody>
