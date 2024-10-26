@@ -9,7 +9,7 @@ import { OcrService } from '../../Services/ocr.service';
 import { ZebraLabelPrinterComponent } from "../../ChildComponents/zebra-label-printer/zebra-label-printer.component";
 import { LogoCanvasComponent } from '../../ChildComponents/logo-canvas/logo-canvas.component';
 import { PrinterStatusComponent } from '../../ChildComponents/printer-status/printer-status.component';
-import ZebraBrowserPrintWrapper from 'zebra-browser-print-wrapper-https';
+import ZebraBrowserPrintWrapper from 'zebra-browser-print-wrapper';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 
@@ -25,29 +25,31 @@ export class AddStockComponent implements OnInit{
   totalCount = 0;
   isSearchDisabled: boolean = false;
   searchedBarcode: String = '';
-  items: any = [{
-    "Id": 0,
-		"ItemId": "1324325",
-		"Description": "STRUBS HOT PEPPERS",
-		"ItemQuantity": 1,
-		"SellPrice": "6.49",
-		"ExtSellPrice": "6.49",
-		"SalvagePercentage": "0.00",
-		"SalvageAmount": "0.00",
-    "Barcode": 6562196415
-	}];
+  items: any = [];
+  labelItem: any = [];
+  // items: any = [{
+  //   "Id": 0,
+	// 	"ItemId": "1324325",
+	// 	"Description": "STRUBS HOT PEPPERS",
+	// 	"ItemQuantity": 1,
+	// 	"SellPrice": "6.49",
+	// 	"ExtSellPrice": "6.49",
+	// 	"SalvagePercentage": "0.00",
+	// 	"SalvageAmount": "0.00",
+  //   "Barcode": 6562196415
+	// }];
   isLabelPrinter: boolean = false;
-  labelItem: any = [{
-    "Id": 0,
-    "ItemId": "1324325",
-		"Description": "STRUBS HOT PEPPERS",
-		"ItemQuantity": 1,
-		"SellPrice": "6.49",
-		"ExtSellPrice": "6.49",
-		"SalvagePercentage": "0.00",
-		"SalvageAmount": "0.00",
-    "Barcode": 6562196415
-  }]
+  // labelItem: any = [{
+  //   "Id": 0,
+  //   "ItemId": "1324325",
+	// 	"Description": "STRUBS HOT PEPPERS",
+	// 	"ItemQuantity": 1,
+	// 	"SellPrice": "6.49",
+	// 	"ExtSellPrice": "6.49",
+	// 	"SalvagePercentage": "0.00",
+	// 	"SalvageAmount": "0.00",
+  //   "Barcode": 6562196415
+  // }]
   totalQuant: number = 0;
   isPrinterConnected: boolean = false;
 
@@ -171,8 +173,8 @@ export class AddStockComponent implements OnInit{
           "SellPrice": item.sellPrice,
           "ExtSellPrice": item.extSellPrice,
           "Barcode": item.barcodeValue,
-          "SalvagePercentage": "0.00",
-          "SalvageAmount": "0.00"
+          "SalvagePercentage": item.salvagePercentage,
+          "SalvageAmount": item.salvageAmount
         })
         this.totalCount = this.labelItem.length;
         this.totalQuant = item.itemQuantity;

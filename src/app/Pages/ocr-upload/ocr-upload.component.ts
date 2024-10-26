@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { GlobalWorkerOptions, getDocument, version } from 'pdfjs-dist';
 import Pica from 'pica';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ImportedDataComponent } from '../../ChildComponents/imported-data/imported-data.component';
 
 GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.mjs`;
 
@@ -22,7 +24,7 @@ export class OcrUploadComponent {
   extractedImages: string[] = [];
   pica = Pica(); // Initialize Pica for image processing
 
-  constructor(private ocrService: OcrService) {}
+  constructor(private ocrService: OcrService, public dialog: MatDialog) {}
 
   async onFileSelected(event: any): Promise<void> {
     const file: File = event.target.files[0];
@@ -88,13 +90,7 @@ export class OcrUploadComponent {
             const text = await this.ocrService.recognizeText(processedFile);
             this.extractedText.push(text); // Store the extracted text
           }
-          const reqPayload = this.extractedText.flat().filter(item => item !== null && item !== undefined);
-          this.ocrService.loadNewBatch(reqPayload).subscribe(res =>{
-            if(res === true){           
-              this.loadImportedData.emit('loadImportedData');
-            }
-          })
-
+          this.openImportedData();
           this.isLoading = false;
         } catch (error) {
           console.error('Error loading PDF document:', error);
@@ -106,6 +102,25 @@ export class OcrUploadComponent {
     } else {
       alert('Please upload a valid PDF file.');
     }
+  }
+
+  openImportedData(){
+    const dialogRef = this.dialog.open(ImportedDataComponent, {
+      width : 'auto',  // Set width to avoid excessive stretching
+      height : 'auto',
+      data: { }
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if(res.msg === 'confirm'){
+        const reqPayload = this.extractedText.flat().filter(item => item !== null && item !== undefined);
+        this.ocrService.loadNewBatch(reqPayload).subscribe(res =>{
+          if(res === true){           
+            this.loadImportedData.emit('loadImportedData');
+          }
+        })
+      }
+    })
   }
 
   // Function to reduce noise and enhance contrast

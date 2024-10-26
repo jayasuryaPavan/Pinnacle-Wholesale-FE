@@ -1,0 +1,11 @@
+.mat-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.mat-mdc-dialog-actions {
+
+    display: flex;
+    justify-content: flex-end;
+
+}

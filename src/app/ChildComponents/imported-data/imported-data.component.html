@@ -1,0 +1,13 @@
+
+<div mat-dialog-content>
+    <div *ngFor = "let data of importedData, index as i">
+        <h2>Page: {{i + 1}}</h2>
+        <div [innerHTML]="formatText(data)"></div>
+        <br><br>
+    </div>
+</div>
+
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close (click) = "dialogRef.close({msg: 'close'})">Cancel</button>
+    <button mat-button [mat-dialog-close]="data" (click) = "dialogRef.close({msg: 'confirm'})">Confirm</button>
+</div>

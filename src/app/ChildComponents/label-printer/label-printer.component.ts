@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import JsBarcode from 'jsbarcode';
 import { CommonModule } from '@angular/common';  // Import CommonModule if you need it
-import ZebraBrowserPrintWrapper from 'zebra-browser-print-wrapper-https';
+import ZebraBrowserPrintWrapper from 'zebra-browser-print-wrapper';
 
 @Component({
   selector: 'app-label-printer',
