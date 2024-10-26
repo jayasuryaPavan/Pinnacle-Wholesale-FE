@@ -8,6 +8,9 @@ import { FormsModule } from '@angular/forms';
 export interface DialogData {
   itemNumber: any;
   barcode: string;
+  description: string;
+  msrp: string;
+  quantity: number;
 }
 
 @Component({

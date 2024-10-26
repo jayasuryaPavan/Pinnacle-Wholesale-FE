@@ -12,6 +12,7 @@ import { PrinterStatusComponent } from '../../ChildComponents/printer-status/pri
 import ZebraBrowserPrintWrapper from 'zebra-browser-print-wrapper';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
+import { AddItemDialogComponent } from '../../ChildComponents/add-item-dialog/add-item-dialog.component';
 
 @Component({
   selector: 'app-add-stock',
@@ -199,6 +200,38 @@ export class AddStockComponent implements OnInit{
       if(res === true){
         this.getImportedData();
       }
+    })
+  }
+
+  deleteItem(item: any){
+    item.selected = false;
+    let reqPayload = {
+      "id": item.Id,
+      "itemId": item.ItemId,
+      "description": item.Description,
+      "itemQuantity": item.ItemQuantity,
+      "sellPrice": item.SellPrice,
+      "extSellPrice": item.ExtSellPrice,
+      "salvagePercentage": item.SalvagePercentage,
+      "salvageAmount": item.SalvageAmount,
+      "isLabelPrinted": false
+    }
+    this.ocrServ.DeleteProductFromImportedData(reqPayload).subscribe(res => {
+      if(res === true){
+        this.getImportedData();
+      }
+    })
+  }
+
+  addItem(){
+    const dialogRef = this.dialog.open(AddItemDialogComponent, {
+      width : 'auto',  // Set width to avoid excessive stretching
+      height : 'auto',
+      data: { }
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
     })
   }
 }

@@ -126,4 +126,8 @@ export class OcrService {
   UpdateImportDataInfo(item: any): Observable<any>{
     return this.http.post(this.localProduct+"UpdateImportDataInfo",item);
   }
+
+  DeleteProductFromImportedData(item: any): Observable<any>{
+    return this.http.post(this.localProduct+"DeleteProductFromImportedData",item);
+  }
 }

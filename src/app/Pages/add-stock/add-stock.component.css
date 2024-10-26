@@ -80,6 +80,7 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 .btn-primary {
@@ -90,6 +91,17 @@
 .btn-success {
   background-color: #28a745;
   color: #fff;
+}
+
+.btn-danger {
+  background-color: #fd270b;
+  color: #fff;
+}
+
+.btn-blue {
+  background-color: #1e8fdb;
+  color: #fff;
+  margin-right: inherit;
 }
 
 .btn-status {

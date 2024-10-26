@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Add Barcode to the Item Number</h2>
+<div mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Barcode</mat-label>
+    <input matInput [(ngModel)]="data.barcode">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Item Number</mat-label>
+    <input matInput rows="3" [(ngModel)]="data.itemNumber">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <input matInput [(ngModel)]="data.description">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Quantity</mat-label>
+    <input matInput rows="3" [(ngModel)]="data.quantity">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>MSRP</mat-label>
+    <input matInput rows="3" [(ngModel)]="data.msrp">
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close (click) = "dialogRef.close({msg: 'close'})">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" (click) = "dialogRef.close({msg: 'confirm',data: data})">Confirm</button>
+</div>

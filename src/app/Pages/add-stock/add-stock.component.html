@@ -6,7 +6,10 @@
     </div>
     <div class="upload-section">
       <div><app-ocr-upload (loadImportedData)="ngOnInit()"></app-ocr-upload></div>
-      <button class="btn btn-status" (click)="printerStatus()">Check Printer Status</button>
+      <div class="row">
+        <button class="btn btn-blue" (click)="addItem()">Add Item to the Imported Data</button>
+        <button class="btn btn-status" (click)="printerStatus()">Check Printer Status</button>
+      </div>
     </div>
     <div class="filter-section input-group mb-3">
       <div>
@@ -35,6 +38,7 @@
             <th>Quantity</th>
             <th>MSRP</th>
             <th></th>
+            <!-- <th></th> -->
           </tr>
         </thead>
         <tbody *ngFor="let item of items">
@@ -44,7 +48,8 @@
             <td>{{ item.Description | titlecase }}</td>
             <td>{{ item.ItemQuantity }}</td>
             <td class="price">{{ item.SellPrice }}</td>
-            <td><button class="btn btn-disable" disabled>Update</button></td>
+            <td><button class="btn btn-disable" disabled>Update</button>
+            <button class="btn btn-disable" disabled>Delete</button></td>
           </tr>
           <tr *ngIf = "item.selected">
             <td><mat-checkbox [(ngModel)]="item.selected"></mat-checkbox></td>
@@ -60,7 +65,8 @@
             <td><mat-form-field >
               <input matInput type="text" placeholder="Enter MSRP of Item" [(ngModel)]="item.SellPrice">
             </mat-form-field></td>
-            <td><button class="btn btn-success" (click) = "updateItem(item)">Update</button></td>
+            <td><button class="btn btn-success" (click) = "updateItem(item)">Update</button>
+            <button class="btn btn-danger" (click) = "deleteItem(item)">Delete</button></td>
           </tr>
         </tbody>
       </table>
