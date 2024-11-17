@@ -26,7 +26,7 @@ export class OcrService {
   parseReceiptText(receiptText: string): any[] {
     const lines = receiptText.split('\n');
 
-    let startIndex = lines.findIndex(line => line.includes('QTY'));
+    let startIndex = lines.findIndex(line => line.includes('QTY') || line.includes('DESCRIPTION'));
   
     // Extract lines starting from the 7th line and ending before the "TOTAL SELL"
     const itemLines = lines.slice(startIndex + 1, lines.findIndex(line => line.includes('TOTAL SELL')));
@@ -128,6 +128,10 @@ export class OcrService {
   }
 
   DeleteProductFromImportedData(item: any): Observable<any>{
-    return this.http.post(this.localProduct+"DeleteProductFromImportedData",item);
+    return this.http.post(this.localProduct+"DeleteProductFromImportedData?itemId="+item.itemId,{});
+  }
+
+  AddProductToImportedData(item: any): Observable<any>{
+    return this.http.post(this.localProduct+"AddProductToImportedData",item);
   }
 }

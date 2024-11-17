@@ -231,7 +231,44 @@ export class AddStockComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
+      if(res.msg === "confirm"){
+        let item = res.data;
+        let reqPayload = {
+          "itemId": item.itemNumber,
+          "description": item.description,
+          "itemQuantity": item.quantity,
+          "sellPrice": item.msrp,
+          "extSellPrice": item.msrp,
+          "salvagePercentage": "0.00",
+          "salvageAmount": "0.00"
+        }
+        this.ocrServ.AddProductToImportedData(reqPayload).subscribe(res => {
+          if(res === true){
+            this.ocrServ.UpdateBarcodeByItemId(item.itemNumber, item.barcode).subscribe(item => {
+              if(item.id !== 0){
+                this.isLabelPrinter = true;
+                this.labelItem = [];
+                console.log('productInfo-->', item);
+                this.labelItem.push({
+                  "ItemId": item.itemId,
+                  "Description": item.description,
+                  "ItemQuantity": item.itemQuantity,
+                  "SellPrice": item.sellPrice,
+                  "ExtSellPrice": item.extSellPrice,
+                  "Barcode": item.barcodeValue,
+                  "SalvagePercentage": "0.00",
+                  "SalvageAmount": item.salvageAmount
+                })
+                this.totalCount = this.labelItem.length;
+                this.totalQuant = item.itemQuantity;
+              }
+            })
+          }
+          else{
+            this.getImportedData();
+          }
+        })
+      }
     })
   }
 }
