@@ -49,11 +49,6 @@ export class LabelPrinterComponent implements OnInit {
       displayValue: true
     });
   }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
   async printBarcode(serial: any){
 
     try {

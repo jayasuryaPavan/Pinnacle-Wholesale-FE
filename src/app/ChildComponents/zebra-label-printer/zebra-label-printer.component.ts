@@ -33,8 +33,8 @@ export class ZebraLabelPrinterComponent {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log('The dialog was closed');
-      if(result === 'labelPrinted'){
-        this.ocrServ.UpdateSellingPrice(item.ItemId, item.salvageAmount).subscribe(res => {
+      if(result === 'labelprinted'){ 
+        this.ocrServ.UpdateSellingPrice(item.ItemId, item.SalvageAmount).subscribe(res => {
           if(res === true){
             this.labelPrinted.emit('saved');
           }
