@@ -21,6 +21,13 @@ export class ZebraLabelPrinterComponent {
 
   constructor(public dialog: MatDialog, private ocrServ: OcrService){}
 
+  changePrice(item:any, key:string){
+    if(key === "percentage")
+      item.SalvageAmount = ((item.SalvagePercentage * item.SellPrice) / 100).toFixed(2);
+    else if(key === "price")
+      item.SalvagePercentage = ((item.SalvageAmount * 100) / item.SellPrice).toFixed(0);
+  }
+
   onPrintLabel(item: any) {
     // Logic to print the label for the item
     const dialogConfig = new MatDialogConfig();

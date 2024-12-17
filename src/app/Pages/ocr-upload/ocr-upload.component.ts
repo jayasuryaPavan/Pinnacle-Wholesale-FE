@@ -31,6 +31,7 @@ export class OcrUploadComponent {
     if (file && file.type === 'application/pdf') {
       this.isLoading = true;
       this.extractedText = [];
+      this.ocrService.receiptNumber = file.name.includes(".pdf") ? file.name.replace('.pdf', '') : file.name;
       const fileReader = new FileReader();
       fileReader.onload = async (e: any) => {
         const typedArray = new Uint8Array(e.target.result as ArrayBuffer);

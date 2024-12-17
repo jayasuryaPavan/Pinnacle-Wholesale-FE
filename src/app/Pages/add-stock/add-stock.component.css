@@ -104,6 +104,12 @@
   margin-right: inherit;
 }
 
+.btn-red {
+  background-color: #e41818;
+  color: #fff;
+  margin-right: inherit;
+}
+
 .btn-status {
   background-color: #d8e213;
   color: #070101;

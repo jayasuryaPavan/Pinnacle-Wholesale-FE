@@ -28,6 +28,7 @@ export class AddStockComponent implements OnInit{
   searchedBarcode: String = '';
   items: any = [];
   labelItem: any = [];
+  selectAll: boolean = false;
   // items: any = [{
   //   "Id": 0,
 	// 	"ItemId": "1324325",
@@ -53,10 +54,12 @@ export class AddStockComponent implements OnInit{
   // }]
   totalQuant: number = 0;
   isPrinterConnected: boolean = false;
+  deleteAll: boolean = false;
 
   constructor( public dialog: MatDialog, private ocrServ: OcrService){}
 
   ngOnInit(): void {
+    this.isSearchDisabled = false;
     this.getImportedData();
   }
 
@@ -66,6 +69,7 @@ export class AddStockComponent implements OnInit{
       console.log("imported--->",res)
       this.items = [];
       this.totalQuant = 0;
+      this.totalCount = 0;
       for(let item of res){
         this.items.push({
           "Id": item.id || item.Id,
@@ -75,7 +79,8 @@ export class AddStockComponent implements OnInit{
           "SellPrice": item.SellPrice || item.sellPrice,
           "ExtSellPrice": item.ExtSellPrice || item.extSellPrice,
           "SalvagePercentage": item.salvagePercentage || item.SalvagePercentage,
-          "SalvageAmount": item.SalvageAmount || item.salvageAmount
+          "SalvageAmount": item.SalvageAmount || item.salvageAmount,
+          "ReceiptNumber": item.receiptNumber || item.ReceiptNumber,
         })  
         this.totalCount = this.items.length;
         this.totalQuant+=item.itemQuantity;
@@ -84,6 +89,29 @@ export class AddStockComponent implements OnInit{
   }
 
   labelPrinted(): void{
+    this.getImportedData();
+  }
+
+  toggleAllItems(selectAll: boolean): void {
+    this.items.forEach((item : any) => {
+      item.selected = selectAll; // Select or deselect all items
+    });
+  }
+
+  checkSelectItem(): void {
+    // Update the `selectAll` checkbox based on individual item selection
+    this.selectAll = this.items.every((item : any) => item.selected);
+  }
+
+  deleteAllItems(): void{
+    console.log("Delete All Items");
+    this.deleteAll = true;
+    this.items.forEach((item: any) => {
+      if(item.selected)
+        this.deleteItem(item);
+    })
+    this.selectAll = false;
+    this.deleteAll = false;
     this.getImportedData();
   }
 
@@ -110,7 +138,7 @@ export class AddStockComponent implements OnInit{
       const dialogRef = this.dialog.open(PrinterStatusComponent, {
         width : 'auto',  // Set width to avoid excessive stretching
         height : 'auto',
-        data: { isPrinterConnected: this.isPrinterConnected }
+        data: { isError: false, isPrinterConnected: this.isPrinterConnected }
       });
   
       dialogRef.afterClosed().subscribe(result => {
@@ -118,7 +146,16 @@ export class AddStockComponent implements OnInit{
       })
 
     } catch (error: any) {
-        throw new Error(error);
+      
+      const dialogRef = this.dialog.open(PrinterStatusComponent, {
+        width : 'auto',  // Set width to avoid excessive stretching
+        height : 'auto',
+        data: { isError: true, message: error }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log("Printer Status-->", result);
+      })
     }
   }
 
@@ -194,7 +231,8 @@ export class AddStockComponent implements OnInit{
       "extSellPrice": item.ExtSellPrice,
       "salvagePercentage": item.SalvagePercentage,
       "salvageAmount": item.SalvageAmount,
-      "isLabelPrinted": false
+      "isLabelPrinted": false,
+      "receiptNumber": item.ReceiptNumber,
     }
     this.ocrServ.UpdateImportDataInfo(reqPayload).subscribe(res => {
       if(res === true){
@@ -217,8 +255,27 @@ export class AddStockComponent implements OnInit{
       "isLabelPrinted": false
     }
     this.ocrServ.DeleteProductFromImportedData(reqPayload).subscribe(res => {
-      if(res === true){
+      if(res === true && this.deleteAll === false){
         this.getImportedData();
+      }
+    })
+  }
+
+  searchProduct(){
+    const dialogRef = this.dialog.open(AddItemDialogComponent, {
+      width : 'auto',  // Set width to avoid excessive stretching
+      height : 'auto',
+      data: { isAddItem: false }
+    })
+
+    dialogRef.afterClosed().subscribe(res => {
+      if(res.msg === "confirm"){
+        if(res.data.itemNumber && res.data.itemNumber != "" && res.data.itemNumber != null){
+          console.log(res.data.itemNumber);
+        }
+        else if(res.data.barcode && res.data.barcode != "" && res.data.barcode != null){
+          console.log(res.data.barcode);
+        }
       }
     })
   }
@@ -227,7 +284,7 @@ export class AddStockComponent implements OnInit{
     const dialogRef = this.dialog.open(AddItemDialogComponent, {
       width : 'auto',  // Set width to avoid excessive stretching
       height : 'auto',
-      data: { }
+      data: { isAddItem: true }
     });
 
     dialogRef.afterClosed().subscribe(res => {
@@ -240,7 +297,8 @@ export class AddStockComponent implements OnInit{
           "sellPrice": item.msrp,
           "extSellPrice": item.msrp,
           "salvagePercentage": "0.00",
-          "salvageAmount": "0.00"
+          "salvageAmount": "0.00",
+          "receiptNumber": item.receiptNumber
         }
         this.ocrServ.AddProductToImportedData(reqPayload).subscribe(res => {
           if(res === true){

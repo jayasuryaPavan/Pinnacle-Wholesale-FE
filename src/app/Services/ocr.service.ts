@@ -10,6 +10,8 @@ export class OcrService {
   extractedText: any[] = [];
   localProduct = 'http://localhost:5000/Product/';
 
+  receiptNumber: string = "";
+
   constructor(private http: HttpClient) { }
 
   // Recognize text using Tesseract
@@ -79,7 +81,8 @@ export class OcrService {
         SellPrice: sellPricePart ? sellPricePart : "0.00",  // Second-to-last part is the sell price
         ExtSellPrice: extSellPricePart ? extSellPricePart : "0.00",  // Last part is the extended sell price
         SalvagePercentage: "0.00",
-        SalvageAmount: "0.00"
+        SalvageAmount: "0.00",
+        receiptNumber: this.receiptNumber,
       };
     }); 
   }

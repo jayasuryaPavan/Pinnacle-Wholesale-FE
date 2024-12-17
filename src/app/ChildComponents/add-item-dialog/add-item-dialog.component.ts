@@ -1,10 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { DialogData } from '../item-number-dialog/item-number-dialog.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-item-dialog',
@@ -12,14 +12,17 @@ import { DialogData } from '../item-number-dialog/item-number-dialog.component';
   imports: [MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule, FormsModule],
+    MatButtonModule, FormsModule, CommonModule],
   templateUrl: './add-item-dialog.component.html',
   styleUrl: './add-item-dialog.component.css'
 })
 export class AddItemDialogComponent {
+
+  isAddItem:boolean = true;
+
   constructor(
     public dialogRef: MatDialogRef<AddItemDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
+    @Inject(MAT_DIALOG_DATA) public data: any = {}
   ) {}
 
   onNoClick(): void {

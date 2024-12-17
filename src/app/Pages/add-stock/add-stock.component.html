@@ -5,8 +5,10 @@
 
     </div>
     <div class="upload-section">
-      <div><app-ocr-upload (loadImportedData)="ngOnInit()"></app-ocr-upload></div>
+      <div *ngIf = "!isLabelPrinter"><app-ocr-upload (loadImportedData)="ngOnInit()"></app-ocr-upload></div>
+      <span *ngIf = "isLabelPrinter"><button class="btn" (click) = "ngOnInit()">Back</button></span>
       <div class="row">
+        <button class="btn btn-red" (click)="searchProduct()">Search Product</button>
         <button class="btn btn-blue" (click)="addItem()">Add Item to the Imported Data</button>
         <button class="btn btn-status" (click)="printerStatus()">Check Printer Status</button>
       </div>
@@ -28,26 +30,28 @@
     <div *ngIf = "isLabelPrinter">
       <app-zebra-label-printer [items] = "labelItem" (labelPrinted)="labelPrinted()"></app-zebra-label-printer>
     </div>
-    <div *ngIf = "!isLabelPrinter">
+    <div *ngIf = "!isLabelPrinter && totalQuant > 0">
       <table class="table">
         <thead>
           <tr>
-            <th></th>
+            <th><mat-checkbox [(ngModel)]="selectAll" (change)="toggleAllItems(selectAll)"></mat-checkbox></th>
             <th>Item ID</th>
             <th>Name</th>
             <th>Quantity</th>
             <th>MSRP</th>
-            <th></th>
+            <th>Receipt Number</th>
+            <th><button class="btn" [ngClass]="{ 'btn-disable': !selectAll, 'btn-danger': selectAll }" (click) = "deleteAllItems()" [disabled]="!selectAll">Delete</button></th>
             <!-- <th></th> -->
           </tr>
         </thead>
         <tbody *ngFor="let item of items">
           <tr *ngIf = "!item.selected">
-            <td><mat-checkbox [(ngModel)]="item.selected"></mat-checkbox></td>
+            <td><mat-checkbox [(ngModel)]="item.selected" (change)="checkSelectItem()"></mat-checkbox></td>
             <td>{{ item.ItemId }}</td>
             <td>{{ item.Description | titlecase }}</td>
             <td>{{ item.ItemQuantity }}</td>
             <td class="price">{{ item.SellPrice }}</td>
+            <td>{{ item.ReceiptNumber }}</td>
             <td><button class="btn btn-disable" disabled>Update</button>
             <button class="btn btn-disable" disabled>Delete</button></td>
           </tr>
@@ -64,6 +68,9 @@
             </mat-form-field></td>
             <td><mat-form-field >
               <input matInput type="text" placeholder="Enter MSRP of Item" [(ngModel)]="item.SellPrice">
+            </mat-form-field></td>
+            <td><mat-form-field >
+              <input matInput type="text" placeholder="Enter Receipt Number" [(ngModel)]="item.ReceiptNumber">
             </mat-form-field></td>
             <td><button class="btn btn-success" (click) = "updateItem(item)">Update</button>
             <button class="btn btn-danger" (click) = "deleteItem(item)">Delete</button></td>
