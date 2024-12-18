@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class OcrService {
   extractedText: any[] = [];
+  // localProduct = 'http://localhost:12325/Product/';
   localProduct = 'http://localhost:5000/Product/';
 
   receiptNumber: string = "";
@@ -71,9 +72,6 @@ export class OcrService {
       // Process ItemQuantity, ensuring it's handled correctly
       const itemQuantityPart = parts[parts.length - 2] ? cleanQuantity(parts[parts.length - 2]) : 1;
 
-      // console.log(parts);
-    
-      // Create an object for each item
       return {
         ItemId: parts[0],
         Description: parts.slice(1, 4).join(' ').replace(/'/g, ""), // Combine all parts except the last 3
@@ -87,20 +85,7 @@ export class OcrService {
     }); 
   }
 
-  // Convert Base64 image to Blob (Utility function)
-  // convertBase64ToBlob(base64Image: string): Blob {
-  //   const byteString = atob(base64Image.split(',')[1]);
-  //   const mimeString = base64Image.split(',')[0].split(':')[1].split(';')[0];
-    
-  //   const arrayBuffer = new ArrayBuffer(byteString.length);
-  //   const uintArray = new Uint8Array(arrayBuffer);
-    
-  //   for (let i = 0; i < byteString.length; i++) {
-  //     uintArray[i] = byteString.charCodeAt(i);
-  //   }
-
-  //   return new Blob([arrayBuffer], { type: mimeString });
-  // }
+  // All the API calls are written below 
 
   loadNewBatch(reqPayload: any): Observable<any>{
     return this.http.post(this.localProduct+'loadNewBatch',reqPayload);
@@ -136,5 +121,17 @@ export class OcrService {
 
   AddProductToImportedData(item: any): Observable<any>{
     return this.http.post(this.localProduct+"AddProductToImportedData",item);
+  }
+
+  GetAvailableProductQuantityByBarcode(barcode: string): Observable<any>{
+    return this.http.get(this.localProduct + "GetAvailableProductQuantityByBarcode?barcode="+barcode);
+  }
+
+  GetAvailableProductQuantityByItemId(itemId: string): Observable<any>{
+    return this.http.get(this.localProduct + "GetAvailableProductQuantityByItemId?itemId="+itemId);
+  }
+
+  DeleteAllImportedData(): Observable<any>{
+    return this.http.post(this.localProduct+"DeleteAllImportedData",{});
   }
 }

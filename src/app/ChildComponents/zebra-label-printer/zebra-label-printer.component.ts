@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { LabelPrinterComponent } from '../label-printer/label-printer.component';
@@ -15,11 +15,17 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './zebra-label-printer.component.html',
   styleUrl: './zebra-label-printer.component.css'
 })
-export class ZebraLabelPrinterComponent {
+export class ZebraLabelPrinterComponent implements OnInit{
   @Input() items: any = [];
   @Output() labelPrinted = new EventEmitter<string>();
 
   constructor(public dialog: MatDialog, private ocrServ: OcrService){}
+
+  ngOnInit(): void {
+    this.items.forEach((item :any) => {
+      this.changePrice(item,'price');
+    })
+  }
 
   changePrice(item:any, key:string){
     if(key === "percentage")

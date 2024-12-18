@@ -54,7 +54,6 @@ export class AddStockComponent implements OnInit{
   // }]
   totalQuant: number = 0;
   isPrinterConnected: boolean = false;
-  deleteAll: boolean = false;
 
   constructor( public dialog: MatDialog, private ocrServ: OcrService){}
 
@@ -105,14 +104,26 @@ export class AddStockComponent implements OnInit{
 
   deleteAllItems(): void{
     console.log("Delete All Items");
-    this.deleteAll = true;
-    this.items.forEach((item: any) => {
-      if(item.selected)
-        this.deleteItem(item);
+    this.ocrServ.DeleteAllImportedData().subscribe(res=>{
+      if(res === true){
+        const dialogRef = this.dialog.open(PrinterStatusComponent,{
+          width : 'auto',
+          height: 'auto',
+          data: { isSuccess: true, message: "Deleted All the Items Succesfully"}
+        })
+
+        dialogRef.afterClosed().subscribe(res =>{ 
+          this.getImportedData();
+        })
+      }
+      else{
+        const dialogRef = this.dialog.open(PrinterStatusComponent,{
+          width : 'auto',
+          height: 'auto',
+          data: { isError: true, message: "There is some Unexpected Error, Cannot delete all the Items"}
+        })
+      }
     })
-    this.selectAll = false;
-    this.deleteAll = false;
-    this.getImportedData();
   }
 
   async printerStatus(){
@@ -146,7 +157,7 @@ export class AddStockComponent implements OnInit{
       })
 
     } catch (error: any) {
-      
+
       const dialogRef = this.dialog.open(PrinterStatusComponent, {
         width : 'auto',  // Set width to avoid excessive stretching
         height : 'auto',
@@ -255,7 +266,7 @@ export class AddStockComponent implements OnInit{
       "isLabelPrinted": false
     }
     this.ocrServ.DeleteProductFromImportedData(reqPayload).subscribe(res => {
-      if(res === true && this.deleteAll === false){
+      if(res === true){
         this.getImportedData();
       }
     })
@@ -271,10 +282,60 @@ export class AddStockComponent implements OnInit{
     dialogRef.afterClosed().subscribe(res => {
       if(res.msg === "confirm"){
         if(res.data.itemNumber && res.data.itemNumber != "" && res.data.itemNumber != null){
-          console.log(res.data.itemNumber);
+          this.ocrServ.GetAvailableProductQuantityByItemId(res.data.itemNumber).subscribe(item=>{
+            if(!item || item.id == 0) {
+              const dialogRef = this.dialog.open(PrinterStatusComponent, {
+                width : 'auto',  // Set width to avoid excessive stretching
+                height : 'auto',
+                data: { isError: true, message: "!!!Item Number Not Found or This  item may  not be into the Inventory!!!" }
+              });
+            }
+            else {
+              this.isLabelPrinter = true;
+                this.labelItem = [];
+                console.log('productInfo-->', item);
+                this.labelItem.push({
+                  "ItemId": item.itemId,
+                  "Description": item.description,
+                  "ItemQuantity": item.itemQuantity,
+                  "SellPrice": item.sellPrice,
+                  "ExtSellPrice": item.extSellPrice,
+                  "Barcode": item.barcodeValue,
+                  "SalvagePercentage": "0.00",
+                  "SalvageAmount": item.salvageAmount
+                })
+                this.totalCount = this.labelItem.length;
+                this.totalQuant = item.itemQuantity;
+            }
+          });
         }
         else if(res.data.barcode && res.data.barcode != "" && res.data.barcode != null){
-          console.log(res.data.barcode);
+          this.ocrServ.GetAvailableProductQuantityByBarcode(res.data.barcode).subscribe(item=>{
+            if(!item || item.id == 0) {
+              const dialogRef = this.dialog.open(PrinterStatusComponent, {
+                width : 'auto',  // Set width to avoid excessive stretching
+                height : 'auto',
+                data: { isError: true, message: "!!!Barcode Not Found!!!" }
+              });
+            }
+            else {
+              this.isLabelPrinter = true;
+                this.labelItem = [];
+                console.log('productInfo-->', item);
+                this.labelItem.push({
+                  "ItemId": item.itemId,
+                  "Description": item.description,
+                  "ItemQuantity": item.itemQuantity,
+                  "SellPrice": item.sellPrice,
+                  "ExtSellPrice": item.extSellPrice,
+                  "Barcode": item.barcodeValue,
+                  "SalvagePercentage": "0.00",
+                  "SalvageAmount": item.salvageAmount
+                })
+                this.totalCount = this.labelItem.length;
+                this.totalQuant = item.itemQuantity;
+            }
+          });
         }
       }
     })

@@ -7,8 +7,11 @@
                 <span *ngIf="data.isPrinterConnected">
                     <h2>Zebra Printer is Connected</h2>
                 </span>
-                <span *ngIf="!data.isPrinterConnected">
+                <span *ngIf="!data.isPrinterConnected && !data.isSuccess">
                     <h2>Zebra Printer is not Connected</h2>
+                </span>
+                <span *ngIf="data.isSuccess">
+                    <h2>{{ data.message }}</h2>
                 </span>
             </div>
         </div>
